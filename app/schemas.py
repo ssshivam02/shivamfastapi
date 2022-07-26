@@ -1,4 +1,4 @@
-from pydantic import BaseModel,EmailStr
+from pydantic import BaseModel,EmailStr, conint
 from datetime import datetime
 from typing import Optional
 '''
@@ -66,3 +66,9 @@ class Token(BaseModel):
     token_type:str
 class TokenData(BaseModel):
     id:Optional[str]= None
+
+class Vote(BaseModel):
+    post_id: str
+    dir:conint(le=1)
+#le means less than or equal to 1
+#dir = is a vote direction for a post, dir= 1 means we want to add a like vote, dir= 0 means we want to delete a like vote 
