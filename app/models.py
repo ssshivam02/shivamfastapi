@@ -23,9 +23,13 @@ class User(Base):
     email=Column(String,nullable=False,unique=True)
     password=Column(String,nullable=False)
     created_at= Column(TIMESTAMP(timezone=True),nullable= False,server_default=text('now()'))
+class Vote(Base):
+    __tablename__="votes"
+    user_id=Column(Integer,ForeignKey("users.id",ondelete="CASCADE"),primary_key=True)
+    post_id=Column(Integer,ForeignKey("posts.id",ondelete="CASCADE"),primary_key=True)
 
 #post and user are interrealted
 #one to many relationship one user can create many post
 #fk is userid of User Table
-#we need to delete table first if we wnt to update any new column or anything 
+#we need to delete table first if we want to update any new column or anything 
 #because if table preexit then sqlachmey will not create new table or not update old table
