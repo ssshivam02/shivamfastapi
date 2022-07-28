@@ -11,7 +11,6 @@ def vote(vote:schemas.Vote,db:Session=Depends(database.get_db),current_user:int=
     post=db.query(models.Post).filter(models.Post.id==vote.post_id).first()
     if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"Post with id:{vote.post_id} does not exit")
-
     vote_query=db.query(models.Vote).filter(models.Vote.post_id==vote.post_id,models.Vote.user_id==current_user.id)
     found_vote=vote_query.first()
     if (vote.dir==1):
@@ -30,3 +29,5 @@ def vote(vote:schemas.Vote,db:Session=Depends(database.get_db),current_user:int=
 #for join                               tablefirst.first_second_fk= second.pk
 #select posts.id from posts left join users on posts.owner_id=users.id;
 #we posts.id because of id present in both table(posts and users)
+#select user.id, count(id )
+#now i want after clicking like i want to see user deatails and count of like on that post

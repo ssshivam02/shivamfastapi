@@ -8,17 +8,22 @@ from psycopg2.extras import RealDictCursor
 from .config import setting 
 SQLALCHEMY_DATABASE_URL = f'postgresql://{setting.database_username}:%s@{setting.database_hostname}:{setting.database_port}/{setting.database_name}' % quote(f'{setting.database_password}')
 
+# engine for creating local postgres connection
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
- 
+Base = declarative_base() 
+
 def get_db():
+    '''
+    create session: creating session locally
+    '''
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
 
+'''
 #for direct running raw sql
 while True:
     try:
@@ -33,3 +38,5 @@ while True:
         print("Error: ",error)
         time.sleep(2)
         #every two sec this will run again
+
+'''

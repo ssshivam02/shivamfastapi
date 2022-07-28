@@ -2,7 +2,7 @@ from fastapi import Depends,Response,status,HTTPException,APIRouter
 from .. import models,schemas,oauth2
 from typing import List, Optional
 from sqlalchemy.orm import Session
-from ..database import engine,get_db
+from ..database import get_db
 router = APIRouter(
     prefix="/posts",tags=['POST']
 )
