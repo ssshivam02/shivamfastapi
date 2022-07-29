@@ -1,0 +1,13 @@
+in sqlalchemy, there is limitation,
+we cant modify tables, its does allow us to make new column, delete columns, add fk contraint
+
+sqlalchemy check the table if table with that same name then it will not create  new table.
+
+
+for this solution is:-
+alembic---- This is Database Migrations
+
+Developers can track changes to code and rollback code easily with git. Why cant we do the same for database models/tables.
+Database migrations allow us to incrementally track changes to database schma and rollback changes to any point in time.
+We will use a toll called Alembic to makes changes to our database.
+Alembic can also automatically pull database models from Sqlachemy and generate the proper tables.

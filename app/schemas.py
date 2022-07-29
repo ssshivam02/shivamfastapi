@@ -60,6 +60,11 @@ class Post(PostBase):
     #this convert sqlalchemy into dict type
     class Config:
         orm_mode=True
+class PostOut(BaseModel):
+    Post: Post
+    votes: int
+    class Config:
+        orm_mode=True
 
 class Token(BaseModel):
     access_token:str

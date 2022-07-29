@@ -2,6 +2,7 @@ from fastapi import Depends,Response,status,HTTPException,APIRouter
 from .. import models,schemas,oauth2
 from typing import List, Optional
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from ..database import get_db
 router = APIRouter(
     prefix="/posts",tags=['POST']
@@ -9,9 +10,11 @@ router = APIRouter(
 
 #by using orm
 #in get we get list in return so we need List[]
-@router.get("/",response_model=List[schemas.Post])        #int is not imp we can add anything here #limit 10 is default
+#@router.get("/",response_model=List[schemas.Post])        #int is not imp we can add anything here #limit 10 is default
+@router.get("/", response_model=List[schemas.PostOut])        #int is not imp we can add anything here #limit 10 is default
 def get_posts(db: Session = Depends(get_db),current_user:int= Depends(oauth2.get_current_user),
 limit:int=10,skip:int=0,search:Optional[str]= ""):
+    #{{URL}}posts?limit=5&skip=0&search=this%my
     #this will make private as per owner_id
     #post=db.query(models.Post).filter(models.Post.owner_id==current_user.id).all()
     #for accessing limit in url we need to add posts?limit=3 or for default we use posts? only
@@ -19,7 +22,12 @@ limit:int=10,skip:int=0,search:Optional[str]= ""):
     #for seraching url posts?limit=3&skip=3&search=king
     #for seraching url posts?limit=3&skip=3&search=king%is%best % for spaces between word
     post=db.query(models.Post).filter(models.Post.title.contains(search)).limit(limit).offset(skip).all()
-    return post
+    #we func for aggregation function and .label is using for setting column name
+    results=db.query(models.Post, func.count(models.Vote.post_id).label("votes")).join(models.Vote, 
+    models.Vote.post_id==models.Post.id, isouter=True).group_by(models.Post.id).filter(
+        models.Post.title.contains(search)).limit(limit).offset(skip).all()
+    # In sqlalchemy by default the join is doing left inner join but we want (null) and we want left outer join
+    return results
     #we can remove "data"
     #return post.
 
@@ -85,9 +93,12 @@ def get_post_id(id:int,response: Response):    # :int is checking type of id
     return {"post_details": post}
 '''
 #by using orm
-@router.get("/{id}",response_model=schemas.Post)
+@router.get("/{id}",response_model=schemas.PostOut)
 def get_post(id:int,db: Session = Depends(get_db),current_user:int= Depends(oauth2.get_current_user)):
-    post=db.query(models.Post).filter(models.Post.id==id).first()
+    #post=db.query(models.Post).filter(models.Post.id==id).first()
+    post=db.query(models.Post, func.count(models.Vote.post_id).label("votes")).join(models.Vote, 
+    models.Vote.post_id==models.Post.id, isouter=True).group_by(models.Post.id).filter(models.Post.id==id).first()
+
     #print(post) this will work after removing .first()
     if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"post with  id: {id} was not found")
