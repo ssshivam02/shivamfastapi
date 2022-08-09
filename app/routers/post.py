@@ -1,4 +1,4 @@
-from fastapi import Depends,Response,status,HTTPException,APIRouter
+from fastapi import Depends, Request,Response,status,HTTPException,APIRouter
 from .. import models,schemas,oauth2
 from typing import List, Optional
 from sqlalchemy.orm import Session
@@ -44,13 +44,15 @@ def get_posts():
 
 #by using orm #use of response_model is imp
 @router.post("/create",status_code=status.HTTP_201_CREATED,response_model=schemas.Post)
-def post_create(post:schemas.PostCreate,db: Session = Depends(get_db),current_user:int= Depends(oauth2.get_current_user)):
+async def post_create(post:schemas.PostCreate,req:Request,db: Session = Depends(get_db),current_user:int= Depends(oauth2.get_current_user)):
     #print(post.dict())
+    ans=await req.json()
     #if we have many column then we can use **post.dict() this will unpack automatically
     #new_post=models.Post(title=post.title,content= post.content, published= post.published)
     #add then commiting
     #print(current_user.id)
-    new_post=models.Post(owner_id=current_user.id,**post.dict())
+    print(ans["title"])
+    new_post=models.Post(**post.dict(),owner_id=current_user.id,)
     db.add(new_post)
     db.commit()
     # refresh as like returning *
