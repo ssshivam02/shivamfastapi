@@ -6,7 +6,8 @@ from .routers import post, user, auth, misc, vote
 
 #this like help in createtable when we save first our code but after use of alembic in code we dont need this
 #models.Base.metadata.create_all(bind=engine)
-origins=["https://www.google.com"]
+origins=["https://www.google.com"] #this contain list of domain
+
 app = FastAPI()
 app.add_middleware(CORSMiddleware,
 allow_origins=origins,  #for public use ["*"]
