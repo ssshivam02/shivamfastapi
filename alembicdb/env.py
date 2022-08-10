@@ -1,10 +1,7 @@
 from logging.config import fileConfig
-
-import sqlalchemy
 from app.models import Base
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-from urllib.parse import quote_plus
 from app.config import setting
 from alembic import context
 

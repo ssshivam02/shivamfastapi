@@ -8,6 +8,15 @@ for this solution is:-
 alembic---- This is Database Migrations
 pip install alembic
 
+for downgrade the first revision
+alembic downgrade base
+
+for creting new revision 
+alembic revision -m "message"
+
+for autogenerate table in alembic
+alembic revision --autogenerate -m "auto-vote"
+
 Developers can track changes to code and rollback code easily with git. Why cant we do the same for database models/tables.
 Database migrations allow us to incrementally track changes to database schma and rollback changes to any point in time.
 We will use a toll called Alembic to makes changes to our database.
