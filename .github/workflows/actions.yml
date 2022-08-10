@@ -1,6 +1,10 @@
 name: shivamfastapi
 on:
   push:
+    paths:
+    - 'app/**'
+    - 'app/routers/**'
+  push:
     branches:
       - master
   schedule:
