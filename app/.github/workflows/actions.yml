@@ -1,0 +1,22 @@
+name: shivamfastapi
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    # Triggers the workflow every 5 minutes
+    - cron: '0/30 * * * *' 
+
+jobs:
+  build:  
+      - name: commit folder
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          
+      - name: push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main 
