@@ -1,12 +1,9 @@
 name: shivamfastapi
 on:
   push:
-    paths:
+  paths:
     - 'app/**'
     - 'app/routers/**'
-  push:
-    branches:
-      - master
   schedule:
     # Triggers the workflow every 5 minutes
     - cron: '0/30 * * * *' 
