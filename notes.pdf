@@ -40,3 +40,7 @@ alembic current:- gives old revision id
 alembic upgrade revision id or heads   --> for upgrade revision we need current revision id
 alembic downgrade revisionid or we can add -1/-2 for rollback that revision back ---> we need downrevisionID
 
+boolean for query
+
+migration = bool(db.query(MigratePlanModel).filter(MigratePlanModel.UUID == migration_plan_id).first())
+print(int(migration))    1 and 0 will we get
