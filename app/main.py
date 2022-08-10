@@ -1,10 +1,19 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from . import models
 from .database import engine
 from .routers import post, user, auth, misc, vote
 
-models.Base.metadata.create_all(bind=engine)
+#this like help in createtable when we save first our code but after use of alembic in code we dont need this
+#models.Base.metadata.create_all(bind=engine)
+origins=["https://www.google.com"]
 app = FastAPI()
+app.add_middleware(CORSMiddleware,
+allow_origins=origins,  #for public use ["*"]
+allow_credentials=True,
+allow_methods=["*"],
+allow_headers=["*"]
+)
                 
 app.include_router(post.router)
 app.include_router(user.router)

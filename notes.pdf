@@ -44,3 +44,25 @@ boolean for query
 
 migration = bool(db.query(MigratePlanModel).filter(MigratePlanModel.UUID == migration_plan_id).first())
 print(int(migration))    1 and 0 will we get
+
+
+api request from chrome(google.com)
+
+goto console through inspect
+
+fetch('http://localhost:8000/').then(res => res.json()).then(console.log)
+
+CORS Policy:-
+-----------
+
+Cross Origin Resource Sharing(CORS) allows you to make rquests from a web browser on one domain to a servr on different domain.
+By default our API will only allow web browsers running on the same domain as our server to make requests to it.
+
+
+
+app.add_middleware(CORSMiddleware,
+allow_origins=["*"] / origin,
+allow_credentials=True,
+allow_methods=["*"],
+allow_headers=["*"]
+)

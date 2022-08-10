@@ -17,7 +17,7 @@ class Post(Base):
     owner_id=Column(Integer,ForeignKey("users.id",ondelete="CASCADE"),nullable=False)
     #this will make automatically relationship between posts and users
     owner=relationship("User")
-
+    
 
 class User(Base):
     __tablename__="users"
@@ -25,7 +25,7 @@ class User(Base):
     email=Column(String,nullable=False,unique=True)
     password=Column(String,nullable=False)
     created_at= Column(TIMESTAMP(timezone=True),nullable= False,server_default=text('now()'))
-
+    phone_number= Column(String)
 
 class Vote(Base):
     __tablename__="votes"
