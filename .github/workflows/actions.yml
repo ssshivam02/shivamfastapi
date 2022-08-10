@@ -1,8 +1,8 @@
 on:
   push:
-  paths:
-    - 'app/**'
-    - 'app/routers/**'
+    paths:
+      - 'app/**'
+      - 'app/routers/**'
   schedule:
     # Triggers the workflow every 5 minutes
     - cron: '0/30 * * * *' 
